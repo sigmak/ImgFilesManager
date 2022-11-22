@@ -8,4 +8,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FileDB" Version="1.0.1" />
+    <PackageReference Include="LiteDB" Version="5.0.12" />
+  </ItemGroup>
+
 </Project>
