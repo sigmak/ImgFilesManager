@@ -894,5 +894,28 @@ namespace ImgFilesManager
             MessageBox.Show(XML_Save_Path_Filename + " 파일저장 성공!!!");
 
         }
+
+        public int GetLineNumber(Exception ex)
+        {
+            ////사용 예시
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message + "row = " + GetLineNumber(ex));
+            //}
+
+            //출처 : http://daplus.net/c-%EC%98%88%EC%99%B8%EA%B0%80-%EB%B0%9C%EC%83%9D%ED%95%9C-%EC%A4%84-%EB%B2%88%ED%98%B8%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%95%8C-%EC%88%98-%EC%9E%88%EC%8A%B5%EB%8B%88%EA%B9%8C/
+            var lineNumber = 0;
+            const string lineSearch = ":line ";
+            var index = ex.StackTrace.LastIndexOf(lineSearch);
+            if (index != -1)
+            {
+                var lineNumberText = ex.StackTrace.Substring(index + lineSearch.Length);
+                if (int.TryParse(lineNumberText, out lineNumber))
+                {
+                }
+            }
+            return lineNumber;
+        }
+
     }
 }
