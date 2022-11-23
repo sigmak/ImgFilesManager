@@ -546,6 +546,7 @@
             this.BtnDel.TabIndex = 57;
             this.BtnDel.Text = "삭제";
             this.BtnDel.UseVisualStyleBackColor = false;
+            this.BtnDel.Click += new System.EventHandler(this.BtnDel_Click);
             // 
             // BtnSave
             // 

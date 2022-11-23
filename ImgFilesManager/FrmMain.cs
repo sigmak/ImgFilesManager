@@ -575,5 +575,87 @@ namespace ImgFilesManager
             }
 
         }
+
+        private void BtnDel_Click(object sender, EventArgs e)
+        {
+            //아직 모르겠다...필요한 기능인지도...???
+            //이미지 잘못 올라갔을때 삭제가 필요하다능...ㅜ.ㅠ;
+
+            // Deleting a file
+            //var ok = FileDB.Delete(pathDB, fileGuid);
+
+            if ((Txt1.Text).Trim().Length == 0)
+                return;
+            if (Txt1.Enabled == false)
+            {
+                // 수정모드
+
+
+                var confirmResult = MessageBox.Show("완전히 삭제를 하시겠습니까?",
+                            "Confirm Delete!!", MessageBoxButtons.YesNo);
+
+                if (confirmResult == DialogResult.Yes)
+                {
+                    // If 'Yes', do something here. 
+
+                    XDocument doc = XDocument.Load(TxtDBpath.Text);
+
+                    var nodes = doc.Root.XPathSelectElements("//IMGLIST//IMG_INFO").ToList(); // 
+
+                    for (int i = 0; i < nodes.Count; i++)
+                    {
+                        if (nodes[i].Element("pNo").Value.ToString() == Txt1.Text)
+                        {
+                            //nodes[i].Element("Desc").Value = Txt2.Text;
+                            //nodes[i].Element("img").Value = Txt3.Text;
+                            //nodes[i].Element("img_id").Value = (string)Txt3.Tag;
+
+                            // Deleting a file
+                            //var ok = FileDB.Delete(pathDB, fileGuid);
+
+                            var pathFilesDB = TxtFileDBPath.Text;//Path.GetDirectoryName(filepath) + @"\MyFilesDB.fdb";
+
+                            if (File.Exists(pathFilesDB) == false)
+                            {
+
+                            }
+                            else
+                            {
+                                //기존 있는 db파일;
+
+                                // var files = FileDB.ListFiles(pathFilesDB);
+
+                                //var pathFilesDB = TxtFileDBPath.Text;//Path.GetDirectoryName(filepath) + @"\MyFilesDB.fdb";
+
+                                using (var db = new FileDB(pathFilesDB, FileAccess.ReadWrite))
+                                {
+                                    if (nodes[i].Element("img_id").Value.Length > 0)
+                                    {
+                                        var info = db.Search(Guid.Parse(nodes[i].Element("img_id").Value));
+                                        db.Delete(info.ID);
+                                    }
+                                }
+                            }
+
+                            nodes[i].Remove(); //이게 맞나???
+
+                            break;
+                        }
+                    }
+                    doc.Save(TxtDBpath.Text);
+
+                }
+
+                //뭔가 액션이 취해졌으면 갱신하기
+                BtnNew_Click(sender, e);    // 신규 버튼 클릭
+                BtnDBLoad_Click(sender, e); // DB  파일 로드
+            }
+            else
+            {
+                // If 'No', do something here. 
+                return; //탈출
+            }
+
+        }
     }
 }
