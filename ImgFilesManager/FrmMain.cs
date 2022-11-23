@@ -30,6 +30,34 @@ namespace ImgFilesManager
             Version version = Assembly.GetEntryAssembly().GetName().Version;
             this.Text = "ImgFilesManager Ver " + version;
 
+            mainDGV.ReadOnly = true; //읽기 전용
+            mainDGV.AllowUserToAddRows = false; //마지막 빈행 생성 안되게
+            mainDGV.Dock = DockStyle.Fill;
+
+
+            Data_View_Design1();
+
+            toolStripStatusLabel1.Text = "Total Rows :";//$"{num}/{selectedAlignments.Count}";
+            toolStripStatusLabel2.Text = $"{mainDGV.RowCount}";//$"{num}/{selectedAlignments.Count}";
+            toolStripStatusLabel3.Text = "";//$"{num}/{selectedAlignments.Count}";
+            toolStripStatusLabel4.Text = "";// $"{mainDGV.RowCount}";//$"{num}/{selectedAlignments.Count}";
+
+            IsChecked(ChkBoxDetailView.Checked);
+
+
+            PicZoom.Visible = false;
+            PicZoom.Top = mainDGV.Top;
+            PicZoom.Left = mainDGV.Left;
+            PicZoom.Width = mainDGV.Width;
+            PicZoom.Height = mainDGV.Height;
+
+            dtOrg.Clear();
+            dtOrg.Columns.Add("pNo", typeof(string));
+            dtOrg.Columns.Add("Desc", typeof(string));
+            dtOrg.Columns.Add("img", typeof(string));
+            dtOrg.Columns.Add("img_id", typeof(string));
+
+            Application.DoEvents();
 
             //String tmp1 = PNoGenerator("");
             //Console.WriteLine(tmp1);
@@ -43,6 +71,66 @@ namespace ImgFilesManager
 
         }
 
+        /// <summary>
+        /// DataGridView 사이즈 조절
+        /// </summary>
+        private void Data_View_Design1()
+        {
+            try
+            {
+                //mainDGV.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; //행높이 자동...고정???
+                mainDGV.RowTemplate.Height = 90;//출처: https://docko.tistory.com/632 
+
+                mainDGV.AutoGenerateColumns = true;
+                // DataGridView 사이즈에 맞게 자동 조정
+                mainDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                this.mainDGV.EditMode = DataGridViewEditMode.EditOnEnter;
+
+                //컬럼별 넓이 지정
+                mainDGV.Columns[0].Width = 70;
+                mainDGV.Columns[1].Width = 100;
+                mainDGV.Columns[2].Width = 80;
+                mainDGV.Columns[3].Width = 60;
+
+
+                //DataGridView 일반 Row 열 디자인
+                mainDGV.BorderStyle = BorderStyle.None;
+                mainDGV.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+                mainDGV.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+                mainDGV.DefaultCellStyle.Font = new Font("굴림", 11, FontStyle.Bold);
+
+
+                //Row 왼쪽 정렬
+                mainDGV.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                mainDGV.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
+                mainDGV.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+
+                //DataGridView ColumnHeader 디자인
+                mainDGV.EnableHeadersVisualStyles = false;
+                mainDGV.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+                mainDGV.ColumnHeadersDefaultCellStyle.Font = new Font("굴림", 10, FontStyle.Bold);
+
+                //dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(15, 50, 72);
+                mainDGV.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(91, 155, 213);
+
+                //Header Column 가운데 정렬
+                mainDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                mainDGV.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; //컬럼명 폰트 컬러
+
+                //DataGridView RowHeader 디자인
+                //dataGridView.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(15, 50, 72);
+                mainDGV.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(91, 155, 213);
+                mainDGV.RowHeadersDefaultCellStyle.Font = new Font("굴림", 10, FontStyle.Bold);
+                mainDGV.RowHeadersDefaultCellStyle.ForeColor = Color.White; //로우명 폰트 칼러
+                mainDGV.RowHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
 
         //Done : 순번생성 규칙 : YYYY-MM-DD_###### 년월일 은 매일 받아오고 뒤의 순번은 있으면 +1씩 증가시키기
         // 사용법
@@ -83,6 +171,22 @@ namespace ImgFilesManager
             }
 
             return result;
+        }
+
+
+
+
+        public void IsChecked(bool Checked)
+        {
+            //출처 : https://manniz.tistory.com/entry/C-%EC%B2%B4%ED%81%AC%EB%B0%95%EC%8A%A4-%EC%B2%B4%ED%81%AC%EC%97%AC%EB%B6%80-%ED%99%95%EC%9D%B8-%ED%95%98%EA%B8%B0%EC%86%8C%EC%8A%A4-%EC%BD%94%EB%93%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%B2%A8%EB%B6%80
+            if (Checked)
+            {
+                panel2.Visible = true;
+            }
+            else
+            {
+                panel2.Visible = false;
+            }
         }
 
         private void BtnCreateDB_Click(object sender, EventArgs e)
@@ -656,6 +760,93 @@ namespace ImgFilesManager
                 return; //탈출
             }
 
+        }
+
+        private void ChkBoxDetailView_CheckedChanged(object sender, EventArgs e)
+        {
+            IsChecked(ChkBoxDetailView.Checked);
+        }
+
+        private void BtnFinder_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string tmpSql = " 1=1 ";
+                if (RbQ1.Checked == true)
+                {
+                    //
+                }
+                if (RbQ2.Checked == true)
+                {
+                    tmpSql += " AND (img <>'') ";
+                }
+                if (RbQ3.Checked == true)
+                {
+                    tmpSql += " AND (img ='') ";
+                }
+
+
+                if (TxtQ1.Text.Length > 0)
+                {
+                    tmpSql += " AND pNo like '%" + TxtQ1.Text + "%' ";
+                }
+                if (TxtQ2.Text.Length > 0)
+                {
+                    tmpSql += " AND Desc like '%" + TxtQ2.Text + "%' ";
+                }
+
+
+                dtOrg.DefaultView.RowFilter
+                    = tmpSql;//("pNo like '%" + TxtQ1.Text + "%' AND Actress like '%" + TxtQ2.Text + "%' AND Desc like '%" + TxtQ3.Text + "%'  ");//string.Format
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void BtnQOrg_Click(object sender, EventArgs e)
+        {
+            TxtQ1.Text = "";
+            TxtQ2.Text = "";
+            RbQ1.Checked = true;
+            RbQ2.Checked = false;
+            RbQ3.Checked = false;
+            dtOrg.DefaultView.RowFilter = "";
+        }
+
+        private void PicBoxS3_MouseHover(object sender, EventArgs e)
+        {
+            if (((PictureBox)sender).Image != null)
+            {
+                PicZoom.Width = mainDGV.Width;
+                PicZoom.Height = mainDGV.Height;
+
+                PicZoom.Image = ((PictureBox)sender).Image;
+                switch (((PictureBox)sender).Name)
+                {
+                    case "PicBoxS3":
+                        PicZoom.SizeMode = PictureBoxSizeMode.StretchImage;
+                        break;
+                }
+                PicZoom.Visible = true;
+            }
+
+        }
+
+        private void FrmMain_Resize(object sender, EventArgs e)
+        {
+            PicZoom.Top = mainDGV.Top;
+            PicZoom.Left = mainDGV.Left;
+            PicZoom.Width = mainDGV.Width;
+            PicZoom.Height = mainDGV.Height;
+        }
+
+        private void PicBoxS3_MouseLeave(object sender, EventArgs e)
+        {
+            PicZoom.Visible = false;
+            PicZoom.Image = null;
         }
     }
 }

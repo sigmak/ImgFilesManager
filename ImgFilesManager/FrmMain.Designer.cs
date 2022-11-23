@@ -33,6 +33,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.PnlTop = new System.Windows.Forms.Panel();
+            this.ChkBoxDetailView = new System.Windows.Forms.CheckBox();
             this.BtnDGVtoXML = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.RbQ3 = new System.Windows.Forms.RadioButton();
@@ -104,6 +105,7 @@
             // PnlTop
             // 
             this.PnlTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.PnlTop.Controls.Add(this.ChkBoxDetailView);
             this.PnlTop.Controls.Add(this.BtnDGVtoXML);
             this.PnlTop.Controls.Add(this.groupBox1);
             this.PnlTop.Controls.Add(this.TxtFileDBPath);
@@ -115,6 +117,17 @@
             this.PnlTop.Name = "PnlTop";
             this.PnlTop.Size = new System.Drawing.Size(1035, 134);
             this.PnlTop.TabIndex = 0;
+            // 
+            // ChkBoxDetailView
+            // 
+            this.ChkBoxDetailView.AutoSize = true;
+            this.ChkBoxDetailView.Location = new System.Drawing.Point(913, 81);
+            this.ChkBoxDetailView.Name = "ChkBoxDetailView";
+            this.ChkBoxDetailView.Size = new System.Drawing.Size(106, 19);
+            this.ChkBoxDetailView.TabIndex = 40;
+            this.ChkBoxDetailView.Text = "등록 상세 화면";
+            this.ChkBoxDetailView.UseVisualStyleBackColor = true;
+            this.ChkBoxDetailView.CheckedChanged += new System.EventHandler(this.ChkBoxDetailView_CheckedChanged);
             // 
             // BtnDGVtoXML
             // 
@@ -185,6 +198,7 @@
             this.BtnQOrg.TabIndex = 57;
             this.BtnQOrg.Text = "원래";
             this.BtnQOrg.UseVisualStyleBackColor = true;
+            this.BtnQOrg.Click += new System.EventHandler(this.BtnQOrg_Click);
             // 
             // BtnFinder
             // 
@@ -194,6 +208,7 @@
             this.BtnFinder.TabIndex = 56;
             this.BtnFinder.Text = "검색";
             this.BtnFinder.UseVisualStyleBackColor = true;
+            this.BtnFinder.Click += new System.EventHandler(this.BtnFinder_Click);
             // 
             // TxtQ2
             // 
@@ -578,6 +593,8 @@
             this.PicBoxS3.Size = new System.Drawing.Size(49, 24);
             this.PicBoxS3.TabIndex = 52;
             this.PicBoxS3.TabStop = false;
+            this.PicBoxS3.MouseLeave += new System.EventHandler(this.PicBoxS3_MouseLeave);
+            this.PicBoxS3.MouseHover += new System.EventHandler(this.PicBoxS3_MouseHover);
             // 
             // BtnU3
             // 
@@ -659,6 +676,7 @@
             this.Name = "FrmMain";
             this.Text = "ImgFilesManager";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.FrmMain_Resize);
             this.PnlTop.ResumeLayout(false);
             this.PnlTop.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -739,5 +757,6 @@
         private Label label1;
         private TabPage tabPage3;
         private PictureBox PicZoom;
+        private CheckBox ChkBoxDetailView;
     }
 }
