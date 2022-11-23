@@ -825,11 +825,13 @@ namespace ImgFilesManager
                 PicZoom.Width = mainDGV.Width;
                 PicZoom.Height = mainDGV.Height;
 
-                PicZoom.Image = ((PictureBox)sender).Image;
+                
                 switch (((PictureBox)sender).Name)
                 {
                     case "PicBoxS3":
-                        PicZoom.SizeMode = PictureBoxSizeMode.StretchImage;
+                        //PicZoom.Image = ((PictureBox)sender).Image;
+                        //PicZoom.SizeMode = PictureBoxSizeMode.StretchImage;
+                        PicZoom.Image = resizeImage(((PictureBox)sender).Image, new Size(PicZoom.Width, PicZoom.Height));
                         break;
                 }
                 PicZoom.Visible = true;
