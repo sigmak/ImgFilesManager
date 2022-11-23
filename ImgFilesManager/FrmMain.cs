@@ -895,6 +895,35 @@ namespace ImgFilesManager
 
         }
 
+        public Image IdToPic(string id)
+        {
+            Image tmpImage = null;
+            if (id == "") return tmpImage;
+            var pathDB = TxtFileDBPath.Text;
+
+            //ListFiles
+            using (var db = new FileDB(pathDB, FileAccess.Read))
+            {
+                //string id = (string)Txt4.Tag;//"1cb73f89-2ab4-401b-a925-a87421c1b233";//"ADN-433.jpg";
+                var info = db.Search(Guid.Parse(id));
+                //var info = db.Search();
+
+                //MessageBox.Show(info.FileName);
+                //MessageBox.Show(db.Debug.DisplayPages());
+
+                using (MemoryStream output = new MemoryStream())
+                {
+                    db.Read(info.ID, output);
+                    //Image image = Image.FromStream(output);
+                    tmpImage = Image.FromStream(output);
+
+                    //PicBoxS4.Image = image;
+                    //PicBoxS4.SizeMode = PictureBoxSizeMode.StretchImage;
+                }
+            }
+            return tmpImage;
+        }
+
         public int GetLineNumber(Exception ex)
         {
             ////사용 예시
