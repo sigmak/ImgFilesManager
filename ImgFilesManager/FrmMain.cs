@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Reflection;
 using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
 using System.Xml;
@@ -25,17 +26,20 @@ namespace ImgFilesManager
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //DONE : 폼 캡션에 버전 표시하기 출처 : https://lioncho.tistory.com/60
+            Version version = Assembly.GetEntryAssembly().GetName().Version;
+            this.Text = "ImgFilesManager Ver " + version;
 
-            String tmp1 = PNoGenerator("");
+
+            //String tmp1 = PNoGenerator("");
             //Console.WriteLine(tmp1);
 
-            String tmp2 = PNoGenerator("2022-11-22_000001");
-
+            //String tmp2 = PNoGenerator("2022-11-22_000001");
             //Console.WriteLine(tmp2);
 
-            //TODO : 생성된 순번으로 파일이름 변경해서 filedb에 저장
+            //DONE : 생성된 순번으로 파일이름 변경해서 filedb에 저장
 
-            //TODO : xml 태그 규칙 pNo, Dsec, fID, fName
+            //DONE : xml 태그 규칙 pNo, Dsec, fName, fID 
 
         }
 
@@ -221,7 +225,6 @@ namespace ImgFilesManager
                         mainDGV.Update();
 
 
-                        // 갤러리쪽 동기화 시키기
                     }
                     catch (Exception ex)
                     {
@@ -241,10 +244,7 @@ namespace ImgFilesManager
                 {
                     try
                     {
-                        //nodes.Count 
-                        //mainDGV.Rows.Clear();
                         mainDGV.Columns.Clear(); //기존의 컬럼날리기 출처 : https://jw0652.tistory.com/9
-                        //int iRow = 0;
 
                         // Open database (or create if doesn't exist)
                         using (var db = new LiteDatabase(TxtBoxFilePath0.Text))
