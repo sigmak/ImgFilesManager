@@ -371,7 +371,11 @@ namespace ImgFilesManager
             if (radioButton1.Checked == true) //XML
             {
                 //DONE : XML DB 사용시 자동순번생성 알고리즘 적용
-
+                if (TxtDBpath.Text.Length <= 0)
+                {
+                    MessageBox.Show("Loading 된 DB 가 없습니다!!!");
+                    return; //탈출
+                } 
                 XDocument doc = XDocument.Load(TxtDBpath.Text);
                 var nodes = doc.Root.XPathSelectElements("//IMGLIST//IMG_INFO").ToList(); // Ver 2 버전 xml
                 int iMax = 0;
