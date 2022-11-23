@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -847,6 +848,51 @@ namespace ImgFilesManager
         {
             PicZoom.Visible = false;
             PicZoom.Image = null;
+        }
+
+        private void BtnDGVtoXML_Click(object sender, EventArgs e)
+        {
+            if (mainDGV.RowCount <= 0) return;
+
+            DataTable dt = new DataTable();
+            dt.TableName = "IMG_INFO";
+
+            for (int i = 0; i < mainDGV.Columns.Count; i++)
+            {
+                //if (dataGridView1.Columns[i].Visible) // Add's only Visible columns (if you need it)
+                //{
+                string headerText = mainDGV.Columns[i].HeaderText;
+                //headerText = Regex.Replace(headerText, "[-/, ]", "_");
+
+                DataColumn column = new DataColumn(headerText);
+                dt.Columns.Add(column);
+                //}
+            }
+
+            foreach (DataGridViewRow DataGVRow in mainDGV.Rows)
+            {
+                DataRow dataRow = dt.NewRow();
+                // Add's only the columns that you want
+                string headerText = "";
+                for (int i = 0; i < mainDGV.ColumnCount; i++)
+                {
+                    headerText = mainDGV.Columns[i].HeaderText;
+                    dataRow[headerText] = DataGVRow.Cells[headerText].Value;
+                }
+                dt.Rows.Add(dataRow); //dt.Columns.Add();
+            }
+            DataSet ds = new DataSet();
+            ds.Tables.Add(dt);
+            //Finally the save part:
+            string XML_Save_Path_Filename = Path.GetDirectoryName(TxtDBpath.Text) + @"\convertImgDB_v1.xml";
+            XmlTextWriter xmlSave = new XmlTextWriter(XML_Save_Path_Filename, Encoding.UTF8);
+            xmlSave.WriteStartDocument(); // 첫라인에 xml 태그 추가
+            xmlSave.Formatting = Formatting.Indented;
+            ds.DataSetName = "IMGLIST";
+            ds.WriteXml(xmlSave);
+            xmlSave.Close();
+            MessageBox.Show(XML_Save_Path_Filename + " 파일저장 성공!!!");
+
         }
     }
 }

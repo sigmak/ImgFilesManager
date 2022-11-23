@@ -137,6 +137,7 @@
             this.BtnDGVtoXML.TabIndex = 39;
             this.BtnDGVtoXML.Text = "DGVtoXML Ver 1.";
             this.BtnDGVtoXML.UseVisualStyleBackColor = true;
+            this.BtnDGVtoXML.Click += new System.EventHandler(this.BtnDGVtoXML_Click);
             // 
             // groupBox1
             // 
