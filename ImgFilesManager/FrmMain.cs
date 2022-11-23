@@ -1,7 +1,8 @@
-using System;
+ï»¿using System;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
@@ -27,12 +28,12 @@ namespace ImgFilesManager
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //DONE : Æû Ä¸¼Ç¿¡ ¹öÀü Ç¥½ÃÇÏ±â ÃâÃ³ : https://lioncho.tistory.com/60
+            //DONE : í¼ ìº¡ì…˜ì— ë²„ì „ í‘œì‹œí•˜ê¸° ì¶œì²˜ : https://lioncho.tistory.com/60
             Version version = Assembly.GetEntryAssembly().GetName().Version;
             this.Text = "ImgFilesManager Ver " + version;
 
-            mainDGV.ReadOnly = true; //ÀĞ±â Àü¿ë
-            mainDGV.AllowUserToAddRows = false; //¸¶Áö¸· ºóÇà »ı¼º ¾ÈµÇ°Ô
+            mainDGV.ReadOnly = true; //ì½ê¸° ì „ìš©
+            mainDGV.AllowUserToAddRows = false; //ë§ˆì§€ë§‰ ë¹ˆí–‰ ìƒì„± ì•ˆë˜ê²Œ
             mainDGV.Dock = DockStyle.Fill;
 
 
@@ -66,63 +67,63 @@ namespace ImgFilesManager
             //String tmp2 = PNoGenerator("2022-11-22_000001");
             //Console.WriteLine(tmp2);
 
-            //DONE : »ı¼ºµÈ ¼ø¹øÀ¸·Î ÆÄÀÏÀÌ¸§ º¯°æÇØ¼­ filedb¿¡ ÀúÀå
+            //DONE : ìƒì„±ëœ ìˆœë²ˆìœ¼ë¡œ íŒŒì¼ì´ë¦„ ë³€ê²½í•´ì„œ filedbì— ì €ì¥
 
-            //DONE : xml ÅÂ±× ±ÔÄ¢ pNo, Dsec, fName, fID 
+            //DONE : xml íƒœê·¸ ê·œì¹™ pNo, Dsec, fName, fID 
 
         }
 
         /// <summary>
-        /// DataGridView »çÀÌÁî Á¶Àı
+        /// DataGridView ì‚¬ì´ì¦ˆ ì¡°ì ˆ
         /// </summary>
         private void Data_View_Design1()
         {
             try
             {
-                //mainDGV.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; //Çà³ôÀÌ ÀÚµ¿...°íÁ¤???
-                mainDGV.RowTemplate.Height = 90;//ÃâÃ³: https://docko.tistory.com/632 
+                //mainDGV.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells; //í–‰ë†’ì´ ìë™...ê³ ì •???
+                mainDGV.RowTemplate.Height = 90;//ì¶œì²˜: https://docko.tistory.com/632 
 
                 mainDGV.AutoGenerateColumns = true;
-                // DataGridView »çÀÌÁî¿¡ ¸Â°Ô ÀÚµ¿ Á¶Á¤
+                // DataGridView ì‚¬ì´ì¦ˆì— ë§ê²Œ ìë™ ì¡°ì •
                 mainDGV.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 this.mainDGV.EditMode = DataGridViewEditMode.EditOnEnter;
 
-                //ÄÃ·³º° ³ĞÀÌ ÁöÁ¤
+                //ì»¬ëŸ¼ë³„ ë„“ì´ ì§€ì •
                 mainDGV.Columns[0].Width = 70;
                 mainDGV.Columns[1].Width = 100;
                 mainDGV.Columns[2].Width = 80;
                 mainDGV.Columns[3].Width = 60;
 
 
-                //DataGridView ÀÏ¹İ Row ¿­ µğÀÚÀÎ
+                //DataGridView ì¼ë°˜ Row ì—´ ë””ìì¸
                 mainDGV.BorderStyle = BorderStyle.None;
                 mainDGV.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
                 mainDGV.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-                mainDGV.DefaultCellStyle.Font = new Font("±¼¸²", 11, FontStyle.Bold);
+                mainDGV.DefaultCellStyle.Font = new Font("êµ´ë¦¼", 11, FontStyle.Bold);
 
 
-                //Row ¿ŞÂÊ Á¤·Ä
+                //Row ì™¼ìª½ ì •ë ¬
                 mainDGV.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 mainDGV.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue;
                 mainDGV.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
 
-                //DataGridView ColumnHeader µğÀÚÀÎ
+                //DataGridView ColumnHeader ë””ìì¸
                 mainDGV.EnableHeadersVisualStyles = false;
                 mainDGV.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-                mainDGV.ColumnHeadersDefaultCellStyle.Font = new Font("±¼¸²", 10, FontStyle.Bold);
+                mainDGV.ColumnHeadersDefaultCellStyle.Font = new Font("êµ´ë¦¼", 10, FontStyle.Bold);
 
                 //dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(15, 50, 72);
                 mainDGV.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(91, 155, 213);
 
-                //Header Column °¡¿îµ¥ Á¤·Ä
+                //Header Column ê°€ìš´ë° ì •ë ¬
                 mainDGV.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                mainDGV.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; //ÄÃ·³¸í ÆùÆ® ÄÃ·¯
+                mainDGV.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; //ì»¬ëŸ¼ëª… í°íŠ¸ ì»¬ëŸ¬
 
-                //DataGridView RowHeader µğÀÚÀÎ
+                //DataGridView RowHeader ë””ìì¸
                 //dataGridView.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(15, 50, 72);
                 mainDGV.RowHeadersDefaultCellStyle.BackColor = Color.FromArgb(91, 155, 213);
-                mainDGV.RowHeadersDefaultCellStyle.Font = new Font("±¼¸²", 10, FontStyle.Bold);
-                mainDGV.RowHeadersDefaultCellStyle.ForeColor = Color.White; //·Î¿ì¸í ÆùÆ® Ä®·¯
+                mainDGV.RowHeadersDefaultCellStyle.Font = new Font("êµ´ë¦¼", 10, FontStyle.Bold);
+                mainDGV.RowHeadersDefaultCellStyle.ForeColor = Color.White; //ë¡œìš°ëª… í°íŠ¸ ì¹¼ëŸ¬
                 mainDGV.RowHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
             }
@@ -133,8 +134,8 @@ namespace ImgFilesManager
 
         }
 
-        //Done : ¼ø¹ø»ı¼º ±ÔÄ¢ : YYYY-MM-DD_###### ³â¿ùÀÏ Àº ¸ÅÀÏ ¹Ş¾Æ¿À°í µÚÀÇ ¼ø¹øÀº ÀÖÀ¸¸é +1¾¿ Áõ°¡½ÃÅ°±â
-        // »ç¿ë¹ı
+        //Done : ìˆœë²ˆìƒì„± ê·œì¹™ : YYYY-MM-DD_###### ë…„ì›”ì¼ ì€ ë§¤ì¼ ë°›ì•„ì˜¤ê³  ë’¤ì˜ ìˆœë²ˆì€ ìˆìœ¼ë©´ +1ì”© ì¦ê°€ì‹œí‚¤ê¸°
+        // ì‚¬ìš©ë²•
         // String tmp1 = PNoGenerator("");
         // //Console.WriteLine(tmp1);
         //
@@ -147,22 +148,22 @@ namespace ImgFilesManager
             {
                 if (str.Length <= 0)
                 {
-                    //ÇöÀç ÀÏÀÚÀÇ ¼ø¹øÀÌ ¾øÀ¸¹Ç·Î »õ·Î»ı¼ºÇÔ.
-                    //DONE : ³â¿ùÀÏ ¹Ş¾Æ¿À±â
-                    String ymd = DateTime.Now.ToString("yyyy-MM-dd"); // ÃâÃ³ : https://developer-talk.tistory.com/147
+                    //í˜„ì¬ ì¼ìì˜ ìˆœë²ˆì´ ì—†ìœ¼ë¯€ë¡œ ìƒˆë¡œìƒì„±í•¨.
+                    //DONE : ë…„ì›”ì¼ ë°›ì•„ì˜¤ê¸°
+                    String ymd = DateTime.Now.ToString("yyyy-MM-dd"); // ì¶œì²˜ : https://developer-talk.tistory.com/147
                     int i = 1;
-                    String numStr = String.Format("{0:D6}", i); //DONE : ¼ıÀÚ¸¦ ###### ·Î ºóÄ­Àº0À¸·Î Ã¤¿ö¼­ Ç¥½ÃÇÏ±â
+                    String numStr = String.Format("{0:D6}", i); //DONE : ìˆ«ìë¥¼ ###### ë¡œ ë¹ˆì¹¸ì€0ìœ¼ë¡œ ì±„ì›Œì„œ í‘œì‹œí•˜ê¸°
 
                     result = ymd + @"_" + numStr;
                 }
                 else
                 {
-                    //°°Àº ³â¿ùÀÏ¿¡¼­ µŞÀÇ ¼ıÀÚ¸¸ Áõ°¡½ÃÅ´
-                    string[] words = str.Split('_');  // ÃâÃ³ : https://gent.tistory.com/502
+                    //ê°™ì€ ë…„ì›”ì¼ì—ì„œ ë’·ì˜ ìˆ«ìë§Œ ì¦ê°€ì‹œí‚´
+                    string[] words = str.Split('_');  // ì¶œì²˜ : https://gent.tistory.com/502
                     String ymd = words[0];
-                    int i = Convert.ToInt32(words[1]); // ¹®ÀÚ¿­ ¼ıÀÚ¸¦ ¼ıÀÚ·Î  // ÃâÃ³ : https://mainia.tistory.com/304
+                    int i = Convert.ToInt32(words[1]); // ë¬¸ìì—´ ìˆ«ìë¥¼ ìˆ«ìë¡œ  // ì¶œì²˜ : https://mainia.tistory.com/304
                     i++;
-                    String numStr = String.Format("{0:D6}", i); //DONE : ¼ıÀÚ¸¦ ###### ·Î ºóÄ­Àº0À¸·Î Ã¤¿ö¼­ Ç¥½ÃÇÏ±â
+                    String numStr = String.Format("{0:D6}", i); //DONE : ìˆ«ìë¥¼ ###### ë¡œ ë¹ˆì¹¸ì€0ìœ¼ë¡œ ì±„ì›Œì„œ í‘œì‹œí•˜ê¸°
                     result = ymd + @"_" + numStr;
                 }
             }
@@ -179,7 +180,7 @@ namespace ImgFilesManager
 
         public void IsChecked(bool Checked)
         {
-            //ÃâÃ³ : https://manniz.tistory.com/entry/C-%EC%B2%B4%ED%81%AC%EB%B0%95%EC%8A%A4-%EC%B2%B4%ED%81%AC%EC%97%AC%EB%B6%80-%ED%99%95%EC%9D%B8-%ED%95%98%EA%B8%B0%EC%86%8C%EC%8A%A4-%EC%BD%94%EB%93%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%B2%A8%EB%B6%80
+            //ì¶œì²˜ : https://manniz.tistory.com/entry/C-%EC%B2%B4%ED%81%AC%EB%B0%95%EC%8A%A4-%EC%B2%B4%ED%81%AC%EC%97%AC%EB%B6%80-%ED%99%95%EC%9D%B8-%ED%95%98%EA%B8%B0%EC%86%8C%EC%8A%A4-%EC%BD%94%EB%93%9C-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%B2%A8%EB%B6%80
             if (Checked)
             {
                 panel2.Visible = true;
@@ -197,7 +198,7 @@ namespace ImgFilesManager
             {
                 fpath += @"\myImgXMLdb_v1.xml";
                 //------------------------
-                // xml »ı¼º 
+                // xml ìƒì„± 
                 XElement doc = new XElement("IMGLIST", new XElement("IMG_INFO",
                new XElement("pNo", PNoGenerator(""))
                , new XElement("Desc", "Test")
@@ -251,7 +252,7 @@ namespace ImgFilesManager
                 OpenFileDialog ofd = new OpenFileDialog
                 {
                     Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*",
-                    Title = "XML ÆÄÀÏ"
+                    Title = "XML íŒŒì¼"
                 };
                 if (ofd.ShowDialog() == DialogResult.OK)
                     TxtBoxFilePath0.Text = ofd.FileName;
@@ -267,7 +268,7 @@ namespace ImgFilesManager
                 OpenFileDialog ofd = new OpenFileDialog
                 {
                     Filter = "db files (*.db)|*.db|All files (*.*)|*.*",
-                    Title = "db ÆÄÀÏ"
+                    Title = "db íŒŒì¼"
                 };
                 if (ofd.ShowDialog() == DialogResult.OK)
                     TxtBoxFilePath0.Text = ofd.FileName;
@@ -282,7 +283,7 @@ namespace ImgFilesManager
         {
             if (TxtBoxFilePath0.Text.Trim() == "")
             {
-                MessageBox.Show("DBÆÄÀÏ °æ·Î°¡ ÀÔ·ÂµÇÁö ¾Ê¾Ò½À´Ï´Ù. ", "°æ°í");
+                MessageBox.Show("DBíŒŒì¼ ê²½ë¡œê°€ ì…ë ¥ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤. ", "ê²½ê³ ");
 
                 return;
             }
@@ -302,7 +303,7 @@ namespace ImgFilesManager
                     try
                     {
 
-                        //ÃâÃ³ : https://hengs.tistory.com/72
+                        //ì¶œì²˜ : https://hengs.tistory.com/72
                         XmlDocument xdoc = new XmlDocument();
                         xdoc.Load(TxtBoxFilePath0.Text);
 
@@ -325,7 +326,7 @@ namespace ImgFilesManager
                             dtOrg.Rows.Add(dtRow);
                         }
 
-                        mainDGV.Columns.Clear(); //±âÁ¸ÀÇ ÄÃ·³³¯¸®±â ÃâÃ³ : https://jw0652.tistory.com/9
+                        mainDGV.Columns.Clear(); //ê¸°ì¡´ì˜ ì»¬ëŸ¼ë‚ ë¦¬ê¸° ì¶œì²˜ : https://jw0652.tistory.com/9
                         mainDGV.DataSource = dtOrg;
                         mainDGV.Update();
 
@@ -334,7 +335,7 @@ namespace ImgFilesManager
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        MessageBox.Show("XML DB ÆÄÀÏ ·Îµù ½ÇÆĞ : " + TxtBoxFilePath0.Text);
+                        MessageBox.Show("XML DB íŒŒì¼ ë¡œë”© ì‹¤íŒ¨ : " + TxtBoxFilePath0.Text);
                     }
 
                 }
@@ -349,7 +350,7 @@ namespace ImgFilesManager
                 {
                     try
                     {
-                        mainDGV.Columns.Clear(); //±âÁ¸ÀÇ ÄÃ·³³¯¸®±â ÃâÃ³ : https://jw0652.tistory.com/9
+                        mainDGV.Columns.Clear(); //ê¸°ì¡´ì˜ ì»¬ëŸ¼ë‚ ë¦¬ê¸° ì¶œì²˜ : https://jw0652.tistory.com/9
 
                         // Open database (or create if doesn't exist)
                         using (var db = new LiteDatabase(TxtBoxFilePath0.Text))
@@ -374,7 +375,7 @@ namespace ImgFilesManager
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                        MessageBox.Show("XML DB ÆÄÀÏ ·Îµù ½ÇÆĞ : " + TxtBoxFilePath0.Text);
+                        MessageBox.Show("XML DB íŒŒì¼ ë¡œë”© ì‹¤íŒ¨ : " + TxtBoxFilePath0.Text);
                     }
 
                 }
@@ -384,11 +385,11 @@ namespace ImgFilesManager
 
             watch.Stop();
 
-            //ÃÑ Rows ¼ö °»½Å
+            //ì´ Rows ìˆ˜ ê°±ì‹ 
             toolStripStatusLabel1.Text = "Total Rows :";//$"{num}/{selectedAlignments.Count}";
             toolStripStatusLabel2.Text = $"{mainDGV.RowCount}";//$"{num}/{selectedAlignments.Count}";
 
-            toolStripStatusLabel3.Text = "¼Ò¿ä½Ã°£:";//$"{num}/{selectedAlignments.Count}";
+            toolStripStatusLabel3.Text = "ì†Œìš”ì‹œê°„:";//$"{num}/{selectedAlignments.Count}";
             toolStripStatusLabel4.Text = $"{watch.ElapsedMilliseconds}ms";//$"{num}/{selectedAlignments.Count}";
 
             Application.DoEvents();
@@ -410,15 +411,15 @@ namespace ImgFilesManager
         }
 
         /// <summary>
-        /// DataGridView ¿¡ ÄÁÆ®·Ñ ¿¬µ¿ÇØ¼­ Ç¥½Ã
+        /// DataGridView ì— ì»¨íŠ¸ë¡¤ ì—°ë™í•´ì„œ í‘œì‹œ
         /// </summary>
         /// <param name="iRow"></param>
         private void ControlDisp(int iRow)
         {
             if (iRow < 0 || iRow > mainDGV.RowCount - 1) return;
-            // ¼öÁ¤¸ğµå·Î µé¾î°¨
-            Txt1.Enabled = false; //»ç¿ë ¸øÇÏ°Ô
-            Btn1.Visible = false; //¾Èº¸ÀÌ°Ô
+            // ìˆ˜ì •ëª¨ë“œë¡œ ë“¤ì–´ê°
+            Txt1.Enabled = false; //ì‚¬ìš© ëª»í•˜ê²Œ
+            Btn1.Visible = false; //ì•ˆë³´ì´ê²Œ
 
             if (mainDGV[0, iRow].Value == null)
                 Txt1.Text = "";
@@ -472,19 +473,19 @@ namespace ImgFilesManager
 
         private void Btn1_Click(object sender, EventArgs e)
         {
-            //Áßº¹Ã¼Å©
+            //ì¤‘ë³µì²´í¬
             if (radioButton1.Checked == true) //XML
             {
-                //DONE : XML DB »ç¿ë½Ã ÀÚµ¿¼ø¹ø»ı¼º ¾Ë°í¸®Áò Àû¿ë
+                //DONE : XML DB ì‚¬ìš©ì‹œ ìë™ìˆœë²ˆìƒì„± ì•Œê³ ë¦¬ì¦˜ ì ìš©
                 if (TxtDBpath.Text.Length <= 0)
                 {
-                    MessageBox.Show("Loading µÈ DB °¡ ¾ø½À´Ï´Ù!!!");
-                    return; //Å»Ãâ
+                    MessageBox.Show("Loading ëœ DB ê°€ ì—†ìŠµë‹ˆë‹¤!!!");
+                    return; //íƒˆì¶œ
                 } 
                 XDocument doc = XDocument.Load(TxtDBpath.Text);
-                var nodes = doc.Root.XPathSelectElements("//IMGLIST//IMG_INFO").ToList(); // Ver 2 ¹öÀü xml
+                var nodes = doc.Root.XPathSelectElements("//IMGLIST//IMG_INFO").ToList(); // Ver 2 ë²„ì „ xml
                 int iMax = 0;
-                String ymd = DateTime.Now.ToString("yyyy-MM-dd"); // ÃâÃ³ : https://developer-talk.tistory.com/147
+                String ymd = DateTime.Now.ToString("yyyy-MM-dd"); // ì¶œì²˜ : https://developer-talk.tistory.com/147
                 for (int i = 0; i < nodes.Count; i++)
                 {
                     String str = nodes[i].Element("pNo").Value.ToString();
@@ -528,16 +529,16 @@ namespace ImgFilesManager
 
         private void BtnNew_Click(object sender, EventArgs e)
         {
-            //DONE: ½Å±Ô¹öÆ° ´­·¶À»¶§ ÄÁÆ®·Ñ ÃÊ±âÈ­
-            Txt1.Enabled = true; //»ç¿ë°¡´ÉÇÏ°Ô
-            Btn1.Visible = true;  //ÀÚµ¿¼ø¹ø»ı¼º ¹öÆ° º¸ÀÌ°Ô
+            //DONE: ì‹ ê·œë²„íŠ¼ ëˆŒë €ì„ë•Œ ì»¨íŠ¸ë¡¤ ì´ˆê¸°í™”
+            Txt1.Enabled = true; //ì‚¬ìš©ê°€ëŠ¥í•˜ê²Œ
+            Btn1.Visible = true;  //ìë™ìˆœë²ˆìƒì„± ë²„íŠ¼ ë³´ì´ê²Œ
 
-            Txt1.Text = ""; //ÃÊ±âÈ­
-            Txt2.Text = ""; //ÃÊ±âÈ­
-            Txt3.Text = ""; //ÃÊ±âÈ­
-            Txt3.Tag = ""; //id ÃÊ±âÈ­
+            Txt1.Text = ""; //ì´ˆê¸°í™”
+            Txt2.Text = ""; //ì´ˆê¸°í™”
+            Txt3.Text = ""; //ì´ˆê¸°í™”
+            Txt3.Tag = ""; //id ì´ˆê¸°í™”
 
-            PicBoxS3.Image = null; //ÇÈÃ³¹Ú½º ÃÊ±âÈ­
+            PicBoxS3.Image = null; //í”½ì²˜ë°•ìŠ¤ ì´ˆê¸°í™”
             PicBoxS3.BackColor = Color.White;
         }
 
@@ -548,11 +549,11 @@ namespace ImgFilesManager
                 return;
             if (Txt1.Enabled == false)
             {
-                // ¼öÁ¤¸ğµå
+                // ìˆ˜ì •ëª¨ë“œ
 
                 XDocument doc = XDocument.Load(TxtDBpath.Text);
 
-                var nodes = doc.Root.XPathSelectElements("//IMGLIST//IMG_INFO").ToList(); // Ver 2 ¹öÀü xml
+                var nodes = doc.Root.XPathSelectElements("//IMGLIST//IMG_INFO").ToList(); // Ver 2 ë²„ì „ xml
 
                 for (int i = 0; i < nodes.Count; i++)
                 {
@@ -570,18 +571,18 @@ namespace ImgFilesManager
             }
             else
             {
-                //½Å±Ôµî·Ï ¸ğµå
+                //ì‹ ê·œë“±ë¡ ëª¨ë“œ
                 if (File.Exists(TxtDBpath.Text) == false)
                 {
-                    // ÆÄÀÏÀÌ ¾øÀ¸¸é ÆÄÀÏ »ı¼º
+                    // íŒŒì¼ì´ ì—†ìœ¼ë©´ íŒŒì¼ ìƒì„±
 
                 }
                 else
                 {
                     //
-                    //ÀÌ¹Ì ÆÄÀÏÀÌ Á¸ÀçÇÏ¸é ¿¤¸®¸ÕÆ® Ãß°¡ÇÏ±â
+                    //ì´ë¯¸ íŒŒì¼ì´ ì¡´ì¬í•˜ë©´ ì—˜ë¦¬ë¨¼íŠ¸ ì¶”ê°€í•˜ê¸°
                     XDocument xDoc = XDocument.Load(TxtDBpath.Text);
-                    var nodes = xDoc.Root.XPathSelectElements("//IMGLIST").ToList(); // Ver 1 ¹öÀü xml
+                    var nodes = xDoc.Root.XPathSelectElements("//IMGLIST").ToList(); // Ver 1 ë²„ì „ xml
                     xDoc.Root.Add(
                             new XElement("IMG_INFO",
                             new XElement("pNo", Txt1.Text),
@@ -595,16 +596,16 @@ namespace ImgFilesManager
             }
 
 
-            //¹º°¡ ¾×¼ÇÀÌ ÃëÇØÁ³À¸¸é °»½ÅÇÏ±â
-            BtnNew_Click(sender, e);    // ½Å±Ô ¹öÆ° Å¬¸¯
-            BtnDBLoad_Click(sender, e); // DB  ÆÄÀÏ ·Îµå
+            //ë­”ê°€ ì•¡ì…˜ì´ ì·¨í•´ì¡Œìœ¼ë©´ ê°±ì‹ í•˜ê¸°
+            BtnNew_Click(sender, e);    // ì‹ ê·œ ë²„íŠ¼ í´ë¦­
+            BtnDBLoad_Click(sender, e); // DB  íŒŒì¼ ë¡œë“œ
 
         }
 
         private void BtnU3_Click(object sender, EventArgs e)
         {
-            string fileDirPath = "";  //µğ·ºÅä¸® °æ·Î¸¸
-            string tmpTag = ""; //ÅÂ±× 
+            string fileDirPath = "";  //ë””ë ‰í† ë¦¬ ê²½ë¡œë§Œ
+            string tmpTag = ""; //íƒœê·¸ 
             string tmpText = ""; //
 
             string tmpFilter = "";
@@ -613,7 +614,7 @@ namespace ImgFilesManager
             {
                 case "BtnU3":
                     tmpFilter = "JPG files (*.jpg)|*.jpg|All files (*.*)|*.*";
-                    tmpTitle = "JPG ÆÄÀÏ";
+                    tmpTitle = "JPG íŒŒì¼";
                     break;
             }
 
@@ -634,26 +635,26 @@ namespace ImgFilesManager
 
 
             //https://github.com/mbdavid/FileDB
-            //ÀÌ¹ÌÁö ÆÄÀÏ¾÷·Îµå
+            //ì´ë¯¸ì§€ íŒŒì¼ì—…ë¡œë“œ
             //var pathImgDB = "";//= @"C:\Temp\MyDB.fdb";
-            // ÆÄÀÏÀ» Á¦¿ÜÇÑ °æ·Î¸í¸¸ °¡Á®¿Ã¶§ 
-            //string filepath = TxtBoxFilePath0.Text ;// @"D:\´Ù¿î·Îµå\POP\Survive You.mp3";
+            // íŒŒì¼ì„ ì œì™¸í•œ ê²½ë¡œëª…ë§Œ ê°€ì ¸ì˜¬ë•Œ 
+            //string filepath = TxtBoxFilePath0.Text ;// @"D:\ë‹¤ìš´ë¡œë“œ\POP\Survive You.mp3";
             //Console.WriteLine(Path.GetDirectoryName(filepath));
             var pathFilesDB = TxtFileDBPath.Text;//Path.GetDirectoryName(filepath) + @"\MyFilesDB.fdb";
 
             if (File.Exists(pathFilesDB) == false)
             {
-                //ÀÌ¹ÌÁöÆÄÀÏdb »õ·Î »ı¼º
+                //ì´ë¯¸ì§€íŒŒì¼db ìƒˆë¡œ ìƒì„±
                 // Creating an empty FileDB archive
                 FileDB.CreateEmptyFile(pathFilesDB); //??
 
                 var info = FileDB.Store(pathFilesDB, fileDirPath + @"\" + tmpText);
                 tmpTag = info.ID.ToString();
-                //ÆÄÀÏ ÀúÀå¿Ï·á
+                //íŒŒì¼ ì €ì¥ì™„ë£Œ
             }
             else
             {
-                //±âÁ¸ ÀÖ´Â dbÆÄÀÏ;
+                //ê¸°ì¡´ ìˆëŠ” dbíŒŒì¼;
 
                 var files = FileDB.ListFiles(pathFilesDB);
                 for (int i = 0; i < files.Length; i++)
@@ -668,7 +669,7 @@ namespace ImgFilesManager
                 {
                     var info = FileDB.Store(pathFilesDB, fileDirPath + @"\" + tmpText);
                     tmpTag = info.ID.ToString();
-                    //ÆÄÀÏ ÀúÀå¿Ï·á
+                    //íŒŒì¼ ì €ì¥ì™„ë£Œ
                 }
             }
             switch (((Button)sender).Name)
@@ -683,8 +684,8 @@ namespace ImgFilesManager
 
         private void BtnDel_Click(object sender, EventArgs e)
         {
-            //¾ÆÁ÷ ¸ğ¸£°Ú´Ù...ÇÊ¿äÇÑ ±â´ÉÀÎÁöµµ...???
-            //ÀÌ¹ÌÁö Àß¸ø ¿Ã¶ó°¬À»¶§ »èÁ¦°¡ ÇÊ¿äÇÏ´Ù´É...¤Ì.¤Ğ;
+            //ì•„ì§ ëª¨ë¥´ê² ë‹¤...í•„ìš”í•œ ê¸°ëŠ¥ì¸ì§€ë„...???
+            //ì´ë¯¸ì§€ ì˜ëª» ì˜¬ë¼ê°”ì„ë•Œ ì‚­ì œê°€ í•„ìš”í•˜ë‹¤ëŠ¥...ã…œ.ã… ;
 
             // Deleting a file
             //var ok = FileDB.Delete(pathDB, fileGuid);
@@ -693,10 +694,10 @@ namespace ImgFilesManager
                 return;
             if (Txt1.Enabled == false)
             {
-                // ¼öÁ¤¸ğµå
+                // ìˆ˜ì •ëª¨ë“œ
 
 
-                var confirmResult = MessageBox.Show("¿ÏÀüÈ÷ »èÁ¦¸¦ ÇÏ½Ã°Ú½À´Ï±î?",
+                var confirmResult = MessageBox.Show("ì™„ì „íˆ ì‚­ì œë¥¼ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?",
                             "Confirm Delete!!", MessageBoxButtons.YesNo);
 
                 if (confirmResult == DialogResult.Yes)
@@ -726,7 +727,7 @@ namespace ImgFilesManager
                             }
                             else
                             {
-                                //±âÁ¸ ÀÖ´Â dbÆÄÀÏ;
+                                //ê¸°ì¡´ ìˆëŠ” dbíŒŒì¼;
 
                                 // var files = FileDB.ListFiles(pathFilesDB);
 
@@ -742,7 +743,7 @@ namespace ImgFilesManager
                                 }
                             }
 
-                            nodes[i].Remove(); //ÀÌ°Ô ¸Â³ª???
+                            nodes[i].Remove(); //ì´ê²Œ ë§ë‚˜???
 
                             break;
                         }
@@ -751,14 +752,14 @@ namespace ImgFilesManager
 
                 }
 
-                //¹º°¡ ¾×¼ÇÀÌ ÃëÇØÁ³À¸¸é °»½ÅÇÏ±â
-                BtnNew_Click(sender, e);    // ½Å±Ô ¹öÆ° Å¬¸¯
-                BtnDBLoad_Click(sender, e); // DB  ÆÄÀÏ ·Îµå
+                //ë­”ê°€ ì•¡ì…˜ì´ ì·¨í•´ì¡Œìœ¼ë©´ ê°±ì‹ í•˜ê¸°
+                BtnNew_Click(sender, e);    // ì‹ ê·œ ë²„íŠ¼ í´ë¦­
+                BtnDBLoad_Click(sender, e); // DB  íŒŒì¼ ë¡œë“œ
             }
             else
             {
                 // If 'No', do something here. 
-                return; //Å»Ãâ
+                return; //íƒˆì¶œ
             }
 
         }
@@ -836,6 +837,38 @@ namespace ImgFilesManager
 
         }
 
+        //ì¶œì²˜ : https://www.c-sharpcorner.com/UploadFile/ishbandhu2009/resize-an-image-in-C-Sharp/
+        //ì‚¬ìš©ë²• :     System.Drawing.ImageÂ iÂ =Â resizeImage(b,Â newÂ Size(100,Â 100));
+        private static System.Drawing.Image resizeImage(System.Drawing.Image imgToResize, Size size)
+        {
+            //GetÂ theÂ imageÂ currentÂ widthÂ Â 
+            int sourceWidth = imgToResize.Width;
+            //GetÂ theÂ imageÂ currentÂ heightÂ Â 
+            int sourceHeight = imgToResize.Height;
+            float nPercent = 0;
+            float nPercentW = 0;
+            float nPercentH = 0;
+            //CalulateÂ Â widthÂ withÂ newÂ desiredÂ sizeÂ Â 
+            nPercentW = ((float)size.Width / (float)sourceWidth);
+            //CalculateÂ heightÂ withÂ newÂ desiredÂ sizeÂ Â 
+            nPercentH = ((float)size.Height / (float)sourceHeight);
+            if (nPercentH < nPercentW)
+                nPercent = nPercentH;
+            else
+                nPercent = nPercentW;
+            //NewÂ WidthÂ Â 
+            int destWidth = (int)(sourceWidth * nPercent);
+            //NewÂ HeightÂ Â 
+            int destHeight = (int)(sourceHeight * nPercent);
+            Bitmap b = new Bitmap(destWidth, destHeight);
+            Graphics g = Graphics.FromImage((System.Drawing.Image)b);
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            //Â DrawÂ imageÂ withÂ newÂ widthÂ andÂ heightÂ Â 
+            g.DrawImage(imgToResize, 0, 0, destWidth, destHeight);
+            g.Dispose();
+            return (System.Drawing.Image)b;
+        }
+
         private void FrmMain_Resize(object sender, EventArgs e)
         {
             PicZoom.Top = mainDGV.Top;
@@ -886,12 +919,12 @@ namespace ImgFilesManager
             //Finally the save part:
             string XML_Save_Path_Filename = Path.GetDirectoryName(TxtDBpath.Text) + @"\convertImgDB_v1.xml";
             XmlTextWriter xmlSave = new XmlTextWriter(XML_Save_Path_Filename, Encoding.UTF8);
-            xmlSave.WriteStartDocument(); // Ã¹¶óÀÎ¿¡ xml ÅÂ±× Ãß°¡
+            xmlSave.WriteStartDocument(); // ì²«ë¼ì¸ì— xml íƒœê·¸ ì¶”ê°€
             xmlSave.Formatting = Formatting.Indented;
             ds.DataSetName = "IMGLIST";
             ds.WriteXml(xmlSave);
             xmlSave.Close();
-            MessageBox.Show(XML_Save_Path_Filename + " ÆÄÀÏÀúÀå ¼º°ø!!!");
+            MessageBox.Show(XML_Save_Path_Filename + " íŒŒì¼ì €ì¥ ì„±ê³µ!!!");
 
         }
 
@@ -926,13 +959,13 @@ namespace ImgFilesManager
 
         public int GetLineNumber(Exception ex)
         {
-            ////»ç¿ë ¿¹½Ã
+            ////ì‚¬ìš© ì˜ˆì‹œ
             //catch (Exception ex)
             //{
             //    MessageBox.Show(ex.Message + "row = " + GetLineNumber(ex));
             //}
 
-            //ÃâÃ³ : http://daplus.net/c-%EC%98%88%EC%99%B8%EA%B0%80-%EB%B0%9C%EC%83%9D%ED%95%9C-%EC%A4%84-%EB%B2%88%ED%98%B8%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%95%8C-%EC%88%98-%EC%9E%88%EC%8A%B5%EB%8B%88%EA%B9%8C/
+            //ì¶œì²˜ : http://daplus.net/c-%EC%98%88%EC%99%B8%EA%B0%80-%EB%B0%9C%EC%83%9D%ED%95%9C-%EC%A4%84-%EB%B2%88%ED%98%B8%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%95%8C-%EC%88%98-%EC%9E%88%EC%8A%B5%EB%8B%88%EA%B9%8C/
             var lineNumber = 0;
             const string lineSearch = ":line ";
             var index = ex.StackTrace.LastIndexOf(lineSearch);
