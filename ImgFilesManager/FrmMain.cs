@@ -17,9 +17,9 @@ namespace ImgFilesManager
 {
     public partial class FrmMain : Form
     {
-        BindingSource bsOrg = new BindingSource();
-        DataTable dtOrg = new DataTable();
-        DataTable dtFilter = new DataTable();
+        //readonly BindingSource bsOrg = new();
+        DataTable dtOrg = new();
+        //readonly DataTable dtFilter = new();
 
         public FrmMain()
         {
@@ -141,9 +141,9 @@ namespace ImgFilesManager
         //
         // String tmp2 = PNoGenerator("2022-11-22_000001");
         // //Console.WriteLine(tmp2);
-        public String PNoGenerator(String str)
+        public static string PNoGenerator(string str)
         {
-            String result = "";
+            string result = "";
             try
             {
                 if (str.Length <= 0)
@@ -199,11 +199,11 @@ namespace ImgFilesManager
                 fpath += @"\myImgXMLdb_v1.xml";
                 //------------------------
                 // xml 생성 
-                XElement doc = new XElement("IMGLIST", new XElement("IMG_INFO",
-               new XElement("pNo", PNoGenerator(""))
-               , new XElement("Desc", "Test")
-               , new XElement("img", "")
-               , new XElement("img_id", "")
+                XElement doc = new("IMGLIST", new XElement("IMG_INFO",
+                               new XElement("pNo", PNoGenerator(""))
+                               , new XElement("Desc", "Test")
+                               , new XElement("img", "")
+                               , new XElement("img_id", "")
                ));
                 doc.Save(fpath);
 
@@ -221,25 +221,24 @@ namespace ImgFilesManager
                 fpath += @"\myImgLitedb.db";
 
                 // Open database (or create if doesn't exist)
-                using (var db = new LiteDatabase(fpath))//@"C:\Temp\MyData.db"
+                using var db = new LiteDatabase(fpath);//@"C:\Temp\MyData.db"
+                                                       // Get a collection (or create, if doesn't exist)
+                var col = db.GetCollection<pNoItem>("pNoItems");
+
+                // Create your new customer instance
+                // Creates an OrderedItem.
+                pNoItem i1 = new()
                 {
-                    // Get a collection (or create, if doesn't exist)
-                    var col = db.GetCollection<pNoItem>("pNoItems");
+                    pNo = PNoGenerator(""),
+                    Desc = "Test",
+                    img = "",//"ADN-433.jpg";
+                    img_id = ""
+                };
 
-                    // Create your new customer instance
-                    // Creates an OrderedItem.
-                    pNoItem i1 = new pNoItem();
-                    i1.pNo = PNoGenerator("");
-                    i1.Desc = "Test";
-                    i1.img = "";//"ADN-433.jpg";
-                    i1.img_id = "";
+                // Insert new customer document (Id will be auto-incremented)
+                col.Insert(i1);
 
-                    // Insert new customer document (Id will be auto-incremented)
-                    col.Insert(i1);
-
-                    TxtBoxFilePath0.Text = fpath;
-
-                }
+                TxtBoxFilePath0.Text = fpath;
 
             }
 
@@ -249,7 +248,7 @@ namespace ImgFilesManager
         {
             if (radioButton1.Checked == true) //XML
             {
-                OpenFileDialog ofd = new OpenFileDialog
+                OpenFileDialog ofd = new()
                 {
                     Filter = "XML files (*.xml)|*.xml|All files (*.*)|*.*",
                     Title = "XML 파일"
@@ -265,7 +264,7 @@ namespace ImgFilesManager
             if (radioButton3.Checked == true) //LiteDB
             {
                 //myLitedb.db
-                OpenFileDialog ofd = new OpenFileDialog
+                OpenFileDialog ofd = new()
                 {
                     Filter = "db files (*.db)|*.db|All files (*.*)|*.*",
                     Title = "db 파일"
@@ -293,7 +292,7 @@ namespace ImgFilesManager
             TxtFileDBPath.Text = Path.GetDirectoryName(TxtDBpath.Text) + @"\MyFilesDB.fdb";
 
 
-            Stopwatch watch = new Stopwatch(); //
+            Stopwatch watch = new(); //
             watch.Start();
 
             if (radioButton1.Checked == true) //XML
@@ -304,7 +303,7 @@ namespace ImgFilesManager
                     {
 
                         //출처 : https://hengs.tistory.com/72
-                        XmlDocument xdoc = new XmlDocument();
+                        XmlDocument xdoc = new();
                         xdoc.Load(TxtBoxFilePath0.Text);
 
                         XmlNodeList nodes = xdoc.SelectNodes("/IMGLIST/IMG_INFO");
@@ -353,22 +352,20 @@ namespace ImgFilesManager
                         mainDGV.Columns.Clear(); //기존의 컬럼날리기 출처 : https://jw0652.tistory.com/9
 
                         // Open database (or create if doesn't exist)
-                        using (var db = new LiteDatabase(TxtBoxFilePath0.Text))
+                        using LiteDatabase db = new(TxtBoxFilePath0.Text);
+                        // Get a collection (or create, if doesn't exist)
+                        var collection = db.GetCollection<pNoItem>("pNoItems");
+
+                        BindingList<pNoItem> doclist = new();
+
+                        foreach (var deger in collection.FindAll())
                         {
-                            // Get a collection (or create, if doesn't exist)
-                            var collection = db.GetCollection<pNoItem>("pNoItems");
-
-                            BindingList<pNoItem> doclist = new BindingList<pNoItem>();
-
-                            foreach (var deger in collection.FindAll())
-                            {
-                                doclist.Add(deger);
-                                //string[] row1 = new string[] { deger.deger1.ToString() };
-                                //dataGridView1.Rows.Add(row1);
-                                Application.DoEvents();
-                            }
-                            mainDGV.DataSource = doclist;
+                            doclist.Add(deger);
+                            //string[] row1 = new string[] { deger.deger1.ToString() };
+                            //dataGridView1.Rows.Add(row1);
+                            Application.DoEvents();
                         }
+                        mainDGV.DataSource = doclist;
 
 
                     }
@@ -396,14 +393,14 @@ namespace ImgFilesManager
 
         }
 
-        private void mainDGV_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void MainDGV_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             ControlDisp(e.RowIndex);
         }
 
-        private void mainDGV_KeyUp(object sender, KeyEventArgs e)
+        private void MainDGV_KeyUp(object sender, KeyEventArgs e)
         {
-            int iColumn = mainDGV.CurrentCell.ColumnIndex;
+            _ = mainDGV.CurrentCell.ColumnIndex; //무시항목 사용시??
             int iRow = mainDGV.CurrentCell.RowIndex;
 
             ControlDisp(iRow);
@@ -448,24 +445,20 @@ namespace ImgFilesManager
                 var pathDB = TxtFileDBPath.Text;
 
                 //ListFiles
-                using (var db = new FileDB(pathDB, FileAccess.Read))
-                {
-                    String id = (String)Txt3.Tag;//"1cb73f89-2ab4-401b-a925-a87421c1b233";//"ADN-433.jpg";
-                    var info = db.Search(Guid.Parse(id));
-                    //var info = db.Search();
+                using FileDB db = new(pathDB, FileAccess.Read);
+                String id = (String)Txt3.Tag;//"1cb73f89-2ab4-401b-a925-a87421c1b233";//"ADN-433.jpg";
+                var info = db.Search(Guid.Parse(id));
+                //var info = db.Search();
 
-                    //MessageBox.Show(info.FileName);
-                    //MessageBox.Show(db.Debug.DisplayPages());
+                //MessageBox.Show(info.FileName);
+                //MessageBox.Show(db.Debug.DisplayPages());
 
-                    using (MemoryStream output = new MemoryStream())
-                    {
-                        db.Read(info.ID, output);
-                        Image image = Image.FromStream(output);
+                using MemoryStream output = new();
+                db.Read(info.ID, output);
+                Image image = Image.FromStream(output);
 
-                        PicBoxS3.Image = image;
-                        PicBoxS3.SizeMode = PictureBoxSizeMode.StretchImage;
-                    }
-                }
+                PicBoxS3.Image = image;
+                PicBoxS3.SizeMode = PictureBoxSizeMode.StretchImage;
             }
 
 
@@ -509,8 +502,6 @@ namespace ImgFilesManager
                     Txt1.Text = PNoGenerator(ymd + @"_" + numStr);
                 }
 
-                nodes = null;
-                doc = null;
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
 
@@ -582,7 +573,7 @@ namespace ImgFilesManager
                     //
                     //이미 파일이 존재하면 엘리먼트 추가하기
                     XDocument xDoc = XDocument.Load(TxtDBpath.Text);
-                    var nodes = xDoc.Root.XPathSelectElements("//IMGLIST").ToList(); // Ver 1 버전 xml
+                    _ = xDoc.Root.XPathSelectElements("//IMGLIST").ToList(); // Ver 1 버전 xml
                     xDoc.Root.Add(
                             new XElement("IMG_INFO",
                             new XElement("pNo", Txt1.Text),
@@ -604,9 +595,7 @@ namespace ImgFilesManager
 
         private void BtnU3_Click(object sender, EventArgs e)
         {
-            string fileDirPath = "";  //디렉토리 경로만
             string tmpTag = ""; //태그 
-            string tmpText = ""; //
 
             string tmpFilter = "";
             string tmpTitle = "";
@@ -618,11 +607,13 @@ namespace ImgFilesManager
                     break;
             }
 
-            OpenFileDialog ofd = new OpenFileDialog
+            OpenFileDialog ofd = new()
             {
                 Filter = tmpFilter,
                 Title = tmpTitle
             };
+            string tmpText;
+            string fileDirPath;
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 fileDirPath = Path.GetDirectoryName(ofd.FileName);
@@ -733,13 +724,11 @@ namespace ImgFilesManager
 
                                 //var pathFilesDB = TxtFileDBPath.Text;//Path.GetDirectoryName(filepath) + @"\MyFilesDB.fdb";
 
-                                using (var db = new FileDB(pathFilesDB, FileAccess.ReadWrite))
+                                using FileDB db = new(pathFilesDB, FileAccess.ReadWrite);
+                                if (nodes[i].Element("img_id").Value.Length > 0)
                                 {
-                                    if (nodes[i].Element("img_id").Value.Length > 0)
-                                    {
-                                        var info = db.Search(Guid.Parse(nodes[i].Element("img_id").Value));
-                                        db.Delete(info.ID);
-                                    }
+                                    var info = db.Search(Guid.Parse(nodes[i].Element("img_id").Value));
+                                    db.Delete(info.ID);
                                 }
                             }
 
@@ -831,7 +820,7 @@ namespace ImgFilesManager
                     case "PicBoxS3":
                         //PicZoom.Image = ((PictureBox)sender).Image;
                         //PicZoom.SizeMode = PictureBoxSizeMode.StretchImage;
-                        PicZoom.Image = resizeImage(((PictureBox)sender).Image, new Size(PicZoom.Width, PicZoom.Height));
+                        PicZoom.Image = ResizeImage(((PictureBox)sender).Image, new Size(PicZoom.Width, PicZoom.Height));
                         break;
                 }
                 PicZoom.Visible = true;
@@ -841,19 +830,17 @@ namespace ImgFilesManager
 
         //출처 : https://www.c-sharpcorner.com/UploadFile/ishbandhu2009/resize-an-image-in-C-Sharp/
         //사용법 :     System.Drawing.Image i = resizeImage(b, new Size(100, 100));
-        private static System.Drawing.Image resizeImage(System.Drawing.Image imgToResize, Size size)
+        private static Image ResizeImage(Image imgToResize, Size size)
         {
             //Get the image current width  
             int sourceWidth = imgToResize.Width;
             //Get the image current height  
             int sourceHeight = imgToResize.Height;
-            float nPercent = 0;
-            float nPercentW = 0;
-            float nPercentH = 0;
             //Calulate  width with new desired size  
-            nPercentW = ((float)size.Width / (float)sourceWidth);
+            float nPercentW = size.Width / (float)sourceWidth;
             //Calculate height with new desired size  
-            nPercentH = ((float)size.Height / (float)sourceHeight);
+            float nPercentH = size.Height / (float)sourceHeight;
+            float nPercent;
             if (nPercentH < nPercentW)
                 nPercent = nPercentH;
             else
@@ -862,7 +849,7 @@ namespace ImgFilesManager
             int destWidth = (int)(sourceWidth * nPercent);
             //New Height  
             int destHeight = (int)(sourceHeight * nPercent);
-            Bitmap b = new Bitmap(destWidth, destHeight);
+            Bitmap b = new(destWidth, destHeight);
             Graphics g = Graphics.FromImage((System.Drawing.Image)b);
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             // Draw image with new width and height  
@@ -889,8 +876,10 @@ namespace ImgFilesManager
         {
             if (mainDGV.RowCount <= 0) return;
 
-            DataTable dt = new DataTable();
-            dt.TableName = "IMG_INFO";
+            DataTable dt = new()
+            {
+                TableName = "IMG_INFO"
+            };
 
             for (int i = 0; i < mainDGV.Columns.Count; i++)
             {
@@ -899,7 +888,7 @@ namespace ImgFilesManager
                 string headerText = mainDGV.Columns[i].HeaderText;
                 //headerText = Regex.Replace(headerText, "[-/, ]", "_");
 
-                DataColumn column = new DataColumn(headerText);
+                DataColumn column = new(headerText);
                 dt.Columns.Add(column);
                 //}
             }
@@ -907,20 +896,19 @@ namespace ImgFilesManager
             foreach (DataGridViewRow DataGVRow in mainDGV.Rows)
             {
                 DataRow dataRow = dt.NewRow();
-                // Add's only the columns that you want
-                string headerText = "";
                 for (int i = 0; i < mainDGV.ColumnCount; i++)
                 {
-                    headerText = mainDGV.Columns[i].HeaderText;
+                    // Add's only the columns that you want
+                    string headerText = mainDGV.Columns[i].HeaderText;
                     dataRow[headerText] = DataGVRow.Cells[headerText].Value;
                 }
                 dt.Rows.Add(dataRow); //dt.Columns.Add();
             }
-            DataSet ds = new DataSet();
+            DataSet ds = new();
             ds.Tables.Add(dt);
             //Finally the save part:
             string XML_Save_Path_Filename = Path.GetDirectoryName(TxtDBpath.Text) + @"\convertImgDB_v1.xml";
-            XmlTextWriter xmlSave = new XmlTextWriter(XML_Save_Path_Filename, Encoding.UTF8);
+            XmlTextWriter xmlSave = new(XML_Save_Path_Filename, Encoding.UTF8);
             xmlSave.WriteStartDocument(); // 첫라인에 xml 태그 추가
             xmlSave.Formatting = Formatting.Indented;
             ds.DataSetName = "IMGLIST";
@@ -946,20 +934,18 @@ namespace ImgFilesManager
                 //MessageBox.Show(info.FileName);
                 //MessageBox.Show(db.Debug.DisplayPages());
 
-                using (MemoryStream output = new MemoryStream())
-                {
-                    db.Read(info.ID, output);
-                    //Image image = Image.FromStream(output);
-                    tmpImage = Image.FromStream(output);
+                using MemoryStream output = new();
+                db.Read(info.ID, output);
+                //Image image = Image.FromStream(output);
+                tmpImage = Image.FromStream(output);
 
-                    //PicBoxS4.Image = image;
-                    //PicBoxS4.SizeMode = PictureBoxSizeMode.StretchImage;
-                }
+                //PicBoxS4.Image = image;
+                //PicBoxS4.SizeMode = PictureBoxSizeMode.StretchImage;
             }
             return tmpImage;
         }
 
-        public int GetLineNumber(Exception ex)
+        public static int GetLineNumber(Exception ex)
         {
             ////사용 예시
             //catch (Exception ex)
@@ -973,7 +959,7 @@ namespace ImgFilesManager
             var index = ex.StackTrace.LastIndexOf(lineSearch);
             if (index != -1)
             {
-                var lineNumberText = ex.StackTrace.Substring(index + lineSearch.Length);
+                string lineNumberText = ex.StackTrace[(index + lineSearch.Length)..];
                 if (int.TryParse(lineNumberText, out lineNumber))
                 {
                 }
