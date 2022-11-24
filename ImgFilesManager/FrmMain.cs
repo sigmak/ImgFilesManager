@@ -306,23 +306,24 @@ namespace ImgFilesManager
                         XmlDocument xdoc = new();
                         xdoc.Load(TxtBoxFilePath0.Text);
 
-                        XmlNodeList nodes = xdoc.SelectNodes("/IMGLIST/IMG_INFO");
-
-                        DataRow dtRow = null;
-                        // Define the columns and their names
-                        dtOrg = new DataTable();
-                        dtOrg.Columns.Add("pNo", typeof(string));
-                        dtOrg.Columns.Add("Desc", typeof(string));
-                        dtOrg.Columns.Add("img", typeof(string));
-                        dtOrg.Columns.Add("img_id", typeof(string));
-                        foreach (XmlNode pnode in nodes)
+                        using (XmlNodeList nodes = xdoc.SelectNodes("/IMGLIST/IMG_INFO"))
                         {
-                            dtRow = dtOrg.NewRow();
-                            dtRow["pNo"] = pnode.SelectSingleNode("pNo").InnerText;
-                            dtRow["Desc"] = pnode.SelectSingleNode("Desc").InnerText;
-                            dtRow["img"] = pnode.SelectSingleNode("img").InnerText;
-                            dtRow["img_id"] = pnode.SelectSingleNode("img_id").InnerText;
-                            dtOrg.Rows.Add(dtRow);
+                            DataRow? dtRow = null;
+                            // Define the columns and their names
+                            dtOrg = new DataTable();
+                            dtOrg.Columns.Add("pNo", typeof(string));
+                            dtOrg.Columns.Add("Desc", typeof(string));
+                            dtOrg.Columns.Add("img", typeof(string));
+                            dtOrg.Columns.Add("img_id", typeof(string));
+                            foreach (XmlNode pnode in nodes)
+                            {
+                                dtRow = dtOrg.NewRow();
+                                dtRow["pNo"] = pnode.SelectSingleNode("pNo").InnerText;
+                                dtRow["Desc"] = pnode.SelectSingleNode("Desc").InnerText;
+                                dtRow["img"] = pnode.SelectSingleNode("img").InnerText;
+                                dtRow["img_id"] = pnode.SelectSingleNode("img_id").InnerText;
+                                dtOrg.Rows.Add(dtRow);
+                            }
                         }
 
                         mainDGV.Columns.Clear(); //기존의 컬럼날리기 출처 : https://jw0652.tistory.com/9
@@ -440,14 +441,14 @@ namespace ImgFilesManager
 
             PicBoxS3.Image = null;
 
-            if (Txt3.Tag != "")
+            if ((string)Txt3.Tag != "")
             {
                 var pathDB = TxtFileDBPath.Text;
 
                 //ListFiles
                 using FileDB db = new(pathDB, FileAccess.Read);
-                String id = (String)Txt3.Tag;//"1cb73f89-2ab4-401b-a925-a87421c1b233";//"ADN-433.jpg";
-                var info = db.Search(Guid.Parse(id));
+                String id = (string)Txt3.Tag;//"1cb73f89-2ab4-401b-a925-a87421c1b233";//"ADN-433.jpg";
+                EntryInfo info = db.Search(Guid.Parse(input: id));
                 //var info = db.Search();
 
                 //MessageBox.Show(info.FileName);
@@ -476,12 +477,12 @@ namespace ImgFilesManager
                     return; //탈출
                 } 
                 XDocument doc = XDocument.Load(TxtDBpath.Text);
-                var nodes = doc.Root.XPathSelectElements("//IMGLIST//IMG_INFO").ToList(); // Ver 2 버전 xml
+                List<XElement> nodes = doc.Root.XPathSelectElements("//IMGLIST//IMG_INFO").ToList(); // Ver 2 버전 xml
                 int iMax = 0;
                 String ymd = DateTime.Now.ToString("yyyy-MM-dd"); // 출처 : https://developer-talk.tistory.com/147
                 for (int i = 0; i < nodes.Count; i++)
                 {
-                    String str = nodes[i].Element("pNo").Value.ToString();
+                    string str = nodes[i].Element("pNo").Value.ToString();
                     String[] words = str.Split('_');
 
                     if (words[0] == ymd)
@@ -548,7 +549,7 @@ namespace ImgFilesManager
 
                 for (int i = 0; i < nodes.Count; i++)
                 {
-                    if (nodes[i].Element("pNo").Value.ToString() == Txt1.Text)
+                    if (nodes[i].Element("pNo").Value.ToString() == (string)Txt1.Text)
                     {
                         //nodes[i].Element("content").Value = "new value";
                         nodes[i].Element("Desc").Value = Txt2.Text;
@@ -697,7 +698,7 @@ namespace ImgFilesManager
 
                     XDocument doc = XDocument.Load(TxtDBpath.Text);
 
-                    var nodes = doc.Root.XPathSelectElements("//IMGLIST//IMG_INFO").ToList(); // 
+                    List<XElement> nodes = doc.Root.XPathSelectElements("//IMGLIST//IMG_INFO").ToList(); // 
 
                     for (int i = 0; i < nodes.Count; i++)
                     {
@@ -921,7 +922,11 @@ namespace ImgFilesManager
         public Image IdToPic(string id)
         {
             Image tmpImage = null;
-            if (id == "") return tmpImage;
+            if (id == "")
+            {
+                return tmpImage;
+            }
+
             var pathDB = TxtFileDBPath.Text;
 
             //ListFiles
@@ -956,7 +961,7 @@ namespace ImgFilesManager
             //출처 : http://daplus.net/c-%EC%98%88%EC%99%B8%EA%B0%80-%EB%B0%9C%EC%83%9D%ED%95%9C-%EC%A4%84-%EB%B2%88%ED%98%B8%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%95%8C-%EC%88%98-%EC%9E%88%EC%8A%B5%EB%8B%88%EA%B9%8C/
             var lineNumber = 0;
             const string lineSearch = ":line ";
-            var index = ex.StackTrace.LastIndexOf(lineSearch);
+            int index = ex.StackTrace.LastIndexOf(lineSearch);
             if (index != -1)
             {
                 string lineNumberText = ex.StackTrace[(index + lineSearch.Length)..];
