@@ -972,5 +972,27 @@ namespace ImgFilesManager
             return lineNumber;
         }
 
+        private void BtnD3_Click(object sender, EventArgs e)
+        {
+            string tmpTag = "";
+            switch (((Button)sender).Name)
+            {
+                case "BtnD3":
+                    tmpTag = (string)Txt3.Tag;
+                    break;
+            }
+            if (tmpTag == "") return;
+
+            var pathFilesDB = TxtFileDBPath.Text;//Path.GetDirectoryName(filepath) + @"\MyFilesDB.fdb";
+
+            using (var db = new FileDB(pathFilesDB, FileAccess.Read))
+            {
+                var info = db.Search(Guid.Parse(tmpTag));
+                //Path.GetDirectoryName(filepath) + @"\MyFilesDB.fdb";
+                //return db.Read(info.ID , info.FileName);
+                db.Read(info.ID, Path.GetDirectoryName(pathFilesDB) + @"\" + info.FileName);
+            }
+
+        }
     }
 }

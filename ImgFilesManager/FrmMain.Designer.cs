@@ -541,6 +541,7 @@
             this.BtnD3.TabIndex = 59;
             this.BtnD3.Text = "Down";
             this.BtnD3.UseVisualStyleBackColor = false;
+            this.BtnD3.Click += new System.EventHandler(this.BtnD3_Click);
             // 
             // Btn1
             // 
