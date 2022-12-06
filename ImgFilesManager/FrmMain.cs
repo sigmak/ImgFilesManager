@@ -991,6 +991,8 @@ namespace ImgFilesManager
                 //Path.GetDirectoryName(filepath) + @"\MyFilesDB.fdb";
                 //return db.Read(info.ID , info.FileName);
                 db.Read(info.ID, Path.GetDirectoryName(pathFilesDB) + @"\" + info.FileName);
+
+                MessageBox.Show("이미지파일 다운로드 성공 : " + Path.GetDirectoryName(pathFilesDB) + @"\" + info.FileName); 
             }
 
         }
