@@ -443,6 +443,7 @@
             this.mainDGV.Size = new System.Drawing.Size(553, 451);
             this.mainDGV.TabIndex = 36;
             this.mainDGV.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainDGV_CellClick);
+            this.mainDGV.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.mainDGV_RowPostPaint);
             this.mainDGV.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainDGV_KeyUp);
             // 
             // Column1

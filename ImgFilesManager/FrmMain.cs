@@ -996,5 +996,31 @@ namespace ImgFilesManager
             }
 
         }
+
+        private void mainDGV_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            //행번호 표시되게
+            //출처 : https://www.wake-up-neo.com/ko/c%23/datagridview%EC%9D%98-%ED%96%89-%ED%97%A4%EB%8D%94%EC%97%90-%ED%96%89-%EB%B2%88%ED%98%B8-%ED%91%9C%EC%8B%9C/942184626/amp/
+            var grid = sender as DataGridView;
+            var rowIdx = (e.RowIndex + 1).ToString();
+
+            var centerFormat = new StringFormat()
+            {
+                // right alignment might actually make more sense for numbers
+                Alignment = StringAlignment.Center,
+
+                LineAlignment = StringAlignment.Center
+            };
+            //get the size of the string
+            Size textSize = TextRenderer.MeasureText(rowIdx, this.Font);
+            //if header width lower then string width then resize
+            if (grid.RowHeadersWidth < textSize.Width + 40)
+            {
+                grid.RowHeadersWidth = textSize.Width + 40;
+            }
+            var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
+            e.Graphics.DrawString(rowIdx, this.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
+
+        }
     }
 }
