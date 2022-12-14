@@ -455,13 +455,24 @@ namespace ImgFilesManager
                 //MessageBox.Show(db.Debug.DisplayPages());
 
                 using MemoryStream output = new();
-                db.Read(info.ID, output);
-                Image image = Image.FromStream(output);
 
-                PicBoxS3.Image = image;
-                PicBoxS3.SizeMode = PictureBoxSizeMode.StretchImage;
+                if (System.IO.Path.GetExtension(info.FileName).ToUpper() == ".GIF") //대문자로 변환 .ToUpper()
+                {
+
+                    PicBoxS3.Image = null; //픽처박스 초기화
+                    PicBoxS3.BackColor = Color.White;
+                }
+                else
+                {
+                    db.Read(info.ID, output);
+                    Image image = Image.FromStream(output);
+
+                    PicBoxS3.Image = image;
+                    PicBoxS3.SizeMode = PictureBoxSizeMode.StretchImage;
+
+                }
+
             }
-
 
         }
 
