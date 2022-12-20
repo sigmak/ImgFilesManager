@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.PnlTop = new System.Windows.Forms.Panel();
             this.ChkBoxDetailView = new System.Windows.Forms.CheckBox();
             this.BtnDGVtoXML = new System.Windows.Forms.Button();
@@ -88,6 +88,18 @@
             this.Txt1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.imageDataGridView = new System.Windows.Forms.DataGridView();
+            this.label5 = new System.Windows.Forms.Label();
+            this.targetPictureBox = new System.Windows.Forms.PictureBox();
+            this.targetGraph = new ImgFilesManager.Graph();
+            this.sourceGraph = new ImgFilesManager.Graph();
+            this.sourcePictureBox = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.sourceImageLabel = new System.Windows.Forms.Label();
+            this.processImageProgressBar = new System.Windows.Forms.ProgressBar();
+            this.processImageLabel = new System.Windows.Forms.Label();
+            this.findButton = new System.Windows.Forms.Button();
             this.PnlTop.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -100,6 +112,12 @@
             this.statusStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxS3)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.targetPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.targetGraph)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sourceGraph)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sourcePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // PnlTop
@@ -283,6 +301,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 134);
             this.tabControl1.Name = "tabControl1";
@@ -448,30 +467,30 @@
             // 
             // Column1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle5;
             this.Column1.HeaderText = "pNo";
             this.Column1.Name = "Column1";
             // 
             // Column3
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column3.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column3.DefaultCellStyle = dataGridViewCellStyle6;
             this.Column3.HeaderText = "Desc";
             this.Column3.Name = "Column3";
             // 
             // Column4
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle7;
             this.Column4.HeaderText = "img";
             this.Column4.Name = "Column4";
             // 
             // Column5
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle8;
             this.Column5.HeaderText = "img_id";
             this.Column5.Name = "Column5";
             // 
@@ -669,6 +688,130 @@
             this.tabPage3.Text = "3.뷰어";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.imageDataGridView);
+            this.tabPage4.Controls.Add(this.label5);
+            this.tabPage4.Controls.Add(this.targetPictureBox);
+            this.tabPage4.Controls.Add(this.targetGraph);
+            this.tabPage4.Controls.Add(this.sourceGraph);
+            this.tabPage4.Controls.Add(this.sourcePictureBox);
+            this.tabPage4.Controls.Add(this.label2);
+            this.tabPage4.Controls.Add(this.sourceImageLabel);
+            this.tabPage4.Controls.Add(this.processImageProgressBar);
+            this.tabPage4.Controls.Add(this.processImageLabel);
+            this.tabPage4.Controls.Add(this.findButton);
+            this.tabPage4.Location = new System.Drawing.Point(4, 4);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(1027, 479);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "4. 유사 이미지검색";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // imageDataGridView
+            // 
+            this.imageDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.imageDataGridView.Location = new System.Drawing.Point(10, 348);
+            this.imageDataGridView.Name = "imageDataGridView";
+            this.imageDataGridView.RowTemplate.Height = 25;
+            this.imageDataGridView.Size = new System.Drawing.Size(862, 125);
+            this.imageDataGridView.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(14, 330);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(83, 15);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "이미지 리스트";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // targetPictureBox
+            // 
+            this.targetPictureBox.Location = new System.Drawing.Point(444, 86);
+            this.targetPictureBox.Name = "targetPictureBox";
+            this.targetPictureBox.Size = new System.Drawing.Size(210, 220);
+            this.targetPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.targetPictureBox.TabIndex = 8;
+            this.targetPictureBox.TabStop = false;
+            // 
+            // targetGraph
+            // 
+            this.targetGraph.BackColor = System.Drawing.Color.White;
+            this.targetGraph.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.targetGraph.Location = new System.Drawing.Point(659, 85);
+            this.targetGraph.Name = "targetGraph";
+            this.targetGraph.Size = new System.Drawing.Size(210, 220);
+            this.targetGraph.TabIndex = 7;
+            this.targetGraph.TabStop = false;
+            // 
+            // sourceGraph
+            // 
+            this.sourceGraph.BackColor = System.Drawing.Color.White;
+            this.sourceGraph.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sourceGraph.Location = new System.Drawing.Point(226, 85);
+            this.sourceGraph.Name = "sourceGraph";
+            this.sourceGraph.Size = new System.Drawing.Size(214, 220);
+            this.sourceGraph.TabIndex = 6;
+            this.sourceGraph.TabStop = false;
+            // 
+            // sourcePictureBox
+            // 
+            this.sourcePictureBox.Location = new System.Drawing.Point(10, 85);
+            this.sourcePictureBox.Name = "sourcePictureBox";
+            this.sourcePictureBox.Size = new System.Drawing.Size(210, 220);
+            this.sourcePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.sourcePictureBox.TabIndex = 5;
+            this.sourcePictureBox.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label2.Location = new System.Drawing.Point(442, 67);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(430, 15);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "타겟 이미지";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // sourceImageLabel
+            // 
+            this.sourceImageLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.sourceImageLabel.Location = new System.Drawing.Point(10, 67);
+            this.sourceImageLabel.Name = "sourceImageLabel";
+            this.sourceImageLabel.Size = new System.Drawing.Size(430, 15);
+            this.sourceImageLabel.TabIndex = 3;
+            this.sourceImageLabel.Text = "소스 이미지";
+            this.sourceImageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // processImageProgressBar
+            // 
+            this.processImageProgressBar.Location = new System.Drawing.Point(10, 53);
+            this.processImageProgressBar.Name = "processImageProgressBar";
+            this.processImageProgressBar.Size = new System.Drawing.Size(860, 10);
+            this.processImageProgressBar.TabIndex = 2;
+            // 
+            // processImageLabel
+            // 
+            this.processImageLabel.Location = new System.Drawing.Point(10, 36);
+            this.processImageLabel.Name = "processImageLabel";
+            this.processImageLabel.Size = new System.Drawing.Size(770, 15);
+            this.processImageLabel.TabIndex = 1;
+            this.processImageLabel.Text = "처리 이미지 (0/0)";
+            this.processImageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // findButton
+            // 
+            this.findButton.Location = new System.Drawing.Point(10, 6);
+            this.findButton.Name = "findButton";
+            this.findButton.Size = new System.Drawing.Size(119, 27);
+            this.findButton.TabIndex = 0;
+            this.findButton.Text = "유사 이미지 찾기";
+            this.findButton.UseVisualStyleBackColor = true;
+            this.findButton.Click += new System.EventHandler(this.findButton_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -699,6 +842,13 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicBoxS3)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.targetPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.targetGraph)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sourceGraph)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sourcePictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -761,5 +911,17 @@
         private TabPage tabPage3;
         private PictureBox PicZoom;
         private CheckBox ChkBoxDetailView;
+        private TabPage tabPage4;
+        private Button findButton;
+        private Label processImageLabel;
+        private ProgressBar processImageProgressBar;
+        private PictureBox sourcePictureBox;
+        private Label label2;
+        private Label sourceImageLabel;
+        private PictureBox targetPictureBox;
+        private Graph targetGraph;
+        private Graph sourceGraph;
+        private DataGridView imageDataGridView;
+        private Label label5;
     }
 }

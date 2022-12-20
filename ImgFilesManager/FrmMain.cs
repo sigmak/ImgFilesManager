@@ -1033,5 +1033,26 @@ namespace ImgFilesManager
             e.Graphics.DrawString(rowIdx, this.Font, SystemBrushes.ControlText, headerBounds, centerFormat);
 
         }
+
+        #region 유사 이미지 찾기 버튼 클릭시 처리하기 - findButton_Click(sender, e)
+
+        /// <summary>
+        /// 유사 이미지 찾기 버튼 클릭시 처리하기
+        /// </summary>
+        /// <param name="sender">이벤트 발생자</param>
+        /// <param name="e">이벤트 인자</param>
+
+        private void findButton_Click(object sender, EventArgs e)
+        {
+            //filedb 선택부터
+
+
+            //----------------------------------------------------------------
+
+            //유사 이미지 찾기 알고리즘 출처 : https://icodebroker.tistory.com/5432
+            //
+        }
+        #endregion
+
     }
 }
